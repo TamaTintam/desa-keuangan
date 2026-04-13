@@ -41,10 +41,10 @@ function DonationReceipt({
       <div className="text-center border-b-2 border-gray-800 pb-4 mb-6">
         <div className="flex justify-center mb-2">
           <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center">
-            <span className="text-white font-bold text-2xl">D</span>
+            <span className="text-white font-bold text-2xl">SIP</span>
           </div>
         </div>
-        <h1 className="text-2xl font-bold text-gray-900">DesaKu</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Sistim Informasi Polege</h1>
         <p className="text-sm text-gray-600">Bukti Donasi</p>
         <p className="text-xs text-gray-500 mt-1">
           {donation.category === 'MASJID' ? 'Masjid' : 'Dusun'}

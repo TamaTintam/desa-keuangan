@@ -5,6 +5,7 @@ import { BalanceCard } from "@/components/features/balance-card"
 import { DonationDetailDialog } from "@/components/features/donation-detail-dialog"
 import type { Donation } from "@/types"
 
+
 interface BalanceCardWithDialogProps {
   title: string
   amount: number
@@ -14,6 +15,8 @@ interface BalanceCardWithDialogProps {
   category: 'MASJID' | 'DUSUN'
   selectedMonth?: string
   selectedYear?: string
+  donations?: any[]      // <-- Tambahkan
+  transactions?: any[]   // <-- Tambahkan
 }
 
 export function BalanceCardWithDialog({ 
@@ -28,14 +31,15 @@ export function BalanceCardWithDialog({
 }: BalanceCardWithDialogProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
-  // Filter donations untuk dialog
-  const filteredDonations = donations.filter(d => {
+  // Filter donations untuk dialog - tambahkan optional chaining dan default empty array
+  const filteredDonations = (donations || []).filter(d => {
     if (d.category !== category) return false
     const date = new Date(d.date)
     const monthMatch = selectedMonth === "all" || date.getMonth() === parseInt(selectedMonth)
     const yearMatch = selectedYear === "all" || date.getFullYear() === parseInt(selectedYear)
     return monthMatch && yearMatch
   })
+
 
   return (
     <>

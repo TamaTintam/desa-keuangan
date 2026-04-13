@@ -10,7 +10,9 @@ import {
   LogOut,
   Settings,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  BarChart2,
+  BarChart3Icon
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -38,6 +40,11 @@ const menuItems = [
     href: "/dashboard/laporan",
     icon: FileText,
   },
+  {
+    name: "Statistik",
+    href: "/dashboard/statistik",
+    icon: BarChart3Icon, // Tambahkan import Settings dari lucide-react
+  },
 ]
 
 export default function Sidebar() {
@@ -60,7 +67,7 @@ export default function Sidebar() {
               <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">SIP</span>
               </div>
-              <span className="font-bold text-xl">Polege</span>
+              <span className="font-bold text-xl">Polege Ku</span>
             </Link>
           )}
           <Button
@@ -106,7 +113,7 @@ export default function Sidebar() {
         {/* Footer */}
         <div className="p-4 border-t space-y-2">
           <Link
-            href="/"
+            href="/dashboard/pengaturan"
             className={cn(
               "flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg",
               isCollapsed && "justify-center"

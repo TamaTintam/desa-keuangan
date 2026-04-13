@@ -14,7 +14,7 @@ import {
   Pie,
   Cell,
 } from "recharts"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { formatRupiah } from "@/lib/utils"
 import { Building2, Home, PieChart as PieChartIcon, BarChart3 } from "lucide-react"
@@ -24,6 +24,12 @@ interface SubCategoryData {
   expense: number;
 }
 
+// Detail per kategori untuk masjid dan dusun
+interface CategoryDetail {
+  masjid: number;
+  dusun: number;
+}
+
 interface FinancialChartProps {
   bySubCategory: {
     INFAQ: SubCategoryData;
@@ -31,20 +37,12 @@ interface FinancialChartProps {
     KEGIATAN: SubCategoryData;
     OPERASIONAL: SubCategoryData;
   };
-  // Tambahan data per kategori untuk masjid dan dusun
-  bySubCategoryDetail?: {
-    INFAQ: { masjid: number; dusun: number };
-    SADAQAH: { masjid: number; dusun: number };
-    KEGIATAN: { masjid: number; dusun: number };
-    OPERASIONAL: { masjid: number; dusun: number };
+  bySubCategoryDetail?: {  // <-- buat optional dengan ?
+    INFAQ: CategoryDetail;
+    SADAQAH: CategoryDetail;
+    KEGIATAN: CategoryDetail;
+    OPERASIONAL: CategoryDetail;
   };
-}
-
-const SUB_CATEGORY_LABELS = {
-  INFAQ: 'Infaq',
-  SADAQAH: 'Sadaqah',
-  KEGIATAN: 'Kegiatan',
-  OPERASIONAL: 'Operasional',
 }
 
 const COLORS = {
@@ -56,58 +54,34 @@ export function FinancialChart({ bySubCategory, bySubCategoryDetail }: Financial
   const [chartView, setChartView] = useState<"comparison" | "pie">("comparison")
 
   // Data perbandingan Pengeluaran Masjid vs Dusun per kategori
-  const comparisonData = bySubCategoryDetail ? [
+  // Data perbandingan Pengeluaran Masjid vs Dusun per kategori
+  const comparisonData = [
     {
       name: 'Infaq',
-      masjid: bySubCategoryDetail.INFAQ.masjid,
-      dusun: bySubCategoryDetail.INFAQ.dusun,
-      total: bySubCategoryDetail.INFAQ.masjid + bySubCategoryDetail.INFAQ.dusun,
+      masjid: bySubCategoryDetail?.INFAQ?.masjid || 0,
+      dusun: bySubCategoryDetail?.INFAQ?.dusun || 0,
+      total: (bySubCategoryDetail?.INFAQ?.masjid || 0) + (bySubCategoryDetail?.INFAQ?.dusun || 0),
     },
     {
       name: 'Sadaqah',
-      masjid: bySubCategoryDetail.SADAQAH.masjid,
-      dusun: bySubCategoryDetail.SADAQAH.dusun,
-      total: bySubCategoryDetail.SADAQAH.masjid + bySubCategoryDetail.SADAQAH.dusun,
+      masjid: bySubCategoryDetail?.SADAQAH?.masjid || 0,
+      dusun: bySubCategoryDetail?.SADAQAH?.dusun || 0,
+      total: (bySubCategoryDetail?.SADAQAH?.masjid || 0) + (bySubCategoryDetail?.SADAQAH?.dusun || 0),
     },
     {
       name: 'Kegiatan',
-      masjid: bySubCategoryDetail.KEGIATAN.masjid,
-      dusun: bySubCategoryDetail.KEGIATAN.dusun,
-      total: bySubCategoryDetail.KEGIATAN.masjid + bySubCategoryDetail.KEGIATAN.dusun,
+      masjid: bySubCategoryDetail?.KEGIATAN?.masjid || 0,
+      dusun: bySubCategoryDetail?.KEGIATAN?.dusun || 0,
+      total: (bySubCategoryDetail?.KEGIATAN?.masjid || 0) + (bySubCategoryDetail?.KEGIATAN?.dusun || 0),
     },
     {
       name: 'Operasional',
-      masjid: bySubCategoryDetail.OPERASIONAL.masjid,
-      dusun: bySubCategoryDetail.OPERASIONAL.dusun,
-      total: bySubCategoryDetail.OPERASIONAL.masjid + bySubCategoryDetail.OPERASIONAL.dusun,
-    },
-  ] : [
-    // Fallback jika bySubCategoryDetail tidak tersedia, hitung dari bySubCategory
-    {
-      name: 'Infaq',
-      masjid: 0,
-      dusun: 0,
-      total: bySubCategory.INFAQ.expense,
-    },
-    {
-      name: 'Sadaqah',
-      masjid: 0,
-      dusun: 0,
-      total: bySubCategory.SADAQAH.expense,
-    },
-    {
-      name: 'Kegiatan',
-      masjid: 0,
-      dusun: 0,
-      total: bySubCategory.KEGIATAN.expense,
-    },
-    {
-      name: 'Operasional',
-      masjid: 0,
-      dusun: 0,
-      total: bySubCategory.OPERASIONAL.expense,
+      masjid: bySubCategoryDetail?.OPERASIONAL?.masjid || 0,
+      dusun: bySubCategoryDetail?.OPERASIONAL?.dusun || 0,
+      total: (bySubCategoryDetail?.OPERASIONAL?.masjid || 0) + (bySubCategoryDetail?.OPERASIONAL?.dusun || 0),
     },
   ]
+
 
   // Data untuk Pie Chart - Total pengeluaran per kategori
   const pieData = [
@@ -116,10 +90,6 @@ export function FinancialChart({ bySubCategory, bySubCategoryDetail }: Financial
     { name: 'Kegiatan', value: bySubCategory.KEGIATAN.expense, color: '#f59e0b' },
     { name: 'Operasional', value: bySubCategory.OPERASIONAL.expense, color: '#ef4444' },
   ].filter(item => item.value > 0)
-
-  const formatTooltipValue = (value: number) => {
-    return formatRupiah(value)
-  }
 
   const totalMasjid = comparisonData.reduce((sum, item) => sum + item.masjid, 0)
   const totalDusun = comparisonData.reduce((sum, item) => sum + item.dusun, 0)

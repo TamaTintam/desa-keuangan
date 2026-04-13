@@ -68,3 +68,19 @@ export interface DashboardStats {
   recentDonations: Donation[];
   donorCount: number;
 }
+
+export interface NewsItem {
+  id: string
+  title: string
+  slug: string
+  excerpt?: string
+  content: string
+  images: string[]
+  thumbnail?: string
+  category: 'KEGIATAN' | 'PENGUMUMAN' | 'INFO_WARGA' | 'LAINNYA'
+  author_id?: string
+  is_published: boolean
+  published_at?: string
+  created_at: string
+  updated_at: string
+}
