@@ -2,7 +2,8 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Banknote, HandHeart, Eye, TrendingUp, Play, Youtube, Newspaper } from "lucide-react"
 import { createClient } from "@/lib/supabase/server"
-import { NewsSlider } from "@/components/features/news-slider"
+import { HeroSlider } from "@/components/features/hero-slider"
+// import { NewsSlider } from "@/components/features/news-slider"
 
 async function getHomeData() {
   const supabase = createClient()
@@ -90,7 +91,7 @@ export default async function HomePage() {
       {news.length > 0 && (
         <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
           <div className="max-w-7xl mx-auto">
-            <NewsSlider news={news} />
+            <HeroSlider news={news} />
           </div>
         </section>
       )}

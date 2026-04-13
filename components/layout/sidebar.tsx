@@ -12,7 +12,8 @@ import {
   ChevronLeft,
   ChevronRight,
   BarChart2,
-  BarChart3Icon
+  BarChart3Icon,
+  Newspaper
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -44,6 +45,11 @@ const menuItems = [
     name: "Statistik",
     href: "/dashboard/statistik",
     icon: BarChart3Icon, // Tambahkan import Settings dari lucide-react
+  },
+  {
+    name: "Berita",
+    href: "/dashboard/berita",
+    icon: Newspaper, // Tambahkan import Settings dari lucide-react
   },
 ]
 

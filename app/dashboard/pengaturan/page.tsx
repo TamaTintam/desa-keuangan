@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import { Settings, Youtube, Newspaper, Image as ImageIcon } from "lucide-react"
 import { SettingsForm } from "@/components/features/settings-form"
-import { NewsManager } from "@/components/features/news-manager"
+// import { NewsManager } from "@/components/features/news-manager"
 
 async function getSettings() {
   const supabase = createClient()
@@ -44,16 +44,16 @@ export default async function PengaturanPage() {
             <Settings className="h-8 w-8 text-blue-600" />
             Pengaturan Dashboard
           </h1>
-          <p className="text-gray-500 mt-1">Kelola konten website dan berita kegiatan</p>
+          <p className="text-gray-500 mt-1">Kelola konten website</p>
         </div>
       </div>
 
-      <Tabs defaultValue="berita" className="space-y-6">
+      <Tabs defaultValue="video" className="space-y-6"> 
         <TabsList>
-          <TabsTrigger value="berita" className="gap-2">
+          {/* <TabsTrigger value="berita" className="gap-2">
             <Newspaper className="h-4 w-4" />
             Berita Kegiatan
-          </TabsTrigger>
+          </TabsTrigger> */}
           <TabsTrigger value="video" className="gap-2">
             <Youtube className="h-4 w-4" />
             Video Hero
@@ -65,9 +65,9 @@ export default async function PengaturanPage() {
         </TabsList>
 
         {/* Tab Berita */}
-        <TabsContent value="berita">
+        {/* <TabsContent value="berita">
           <NewsManager initialNews={news} />
-        </TabsContent>
+        </TabsContent> */}
 
         {/* Tab Video */}
         <TabsContent value="video">

@@ -143,7 +143,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* Balance Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <BalanceCardWithDialog
           title="Saldo Masjid"
           balance={safeMasjidBalance}
@@ -186,7 +186,7 @@ export default async function DashboardPage() {
             </div>
           </CardContent>
         </Card>
-      </div>
+      </div> */}
 
       {/* Financial Chart with Detail Data */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
