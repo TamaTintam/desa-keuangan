@@ -14,7 +14,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import type { Donation } from "@/types"
-import { User, Search, ChevronLeft, ChevronRight } from "lucide-react"
+import { User, Search, ChevronLeft, ChevronRight, CheckCircle, Clock, XCircle, HandHeart } from "lucide-react"
 
 interface DonationListProps {
   donations: Donation[]
@@ -38,6 +38,34 @@ export function DonationList({ donations, showPagination = false, itemsPerPage =
     ? filteredDonations.slice(startIndex, startIndex + itemsPerPage)
     : filteredDonations
 
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'PENDING':
+        return (
+          <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
+            <Clock className="h-3 w-3 mr-1" />
+            Menunggu
+          </Badge>
+        )
+      case 'APPROVED':
+        return (
+          <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+            <CheckCircle className="h-3 w-3 mr-1" />
+            Diterima
+          </Badge>
+        )
+      case 'REJECTED':
+        return (
+          <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">
+            <XCircle className="h-3 w-3 mr-1" />
+            Ditolak
+          </Badge>
+        )
+      default:
+        return <Badge variant="secondary">{status}</Badge>
+    }
+  }
+
   if (donations.length === 0) {
     return (
       <div className="text-center py-12 text-gray-500">
@@ -49,7 +77,6 @@ export function DonationList({ donations, showPagination = false, itemsPerPage =
 
   return (
     <div className="space-y-4">
-      {/* Search */}
       <div className="relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
         <Input
@@ -67,25 +94,29 @@ export function DonationList({ donations, showPagination = false, itemsPerPage =
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>No</TableHead>
+              <TableHead className="w-12">No</TableHead>
               <TableHead>No. Resi</TableHead>
               <TableHead>Nama Donatur</TableHead>
               <TableHead>Kategori</TableHead>
               <TableHead>Metode</TableHead>
               <TableHead className="text-right">Jumlah</TableHead>
+              <TableHead>Status</TableHead>
               <TableHead>Tanggal</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {paginatedDonations.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={7} className="text-center py-8 text-gray-500">
+                <TableCell colSpan={8} className="text-center py-8 text-gray-500">
                   Tidak ada data yang cocok
                 </TableCell>
               </TableRow>
             ) : (
               paginatedDonations.map((donation, index) => (
-                <TableRow key={donation.id}>
+                <TableRow 
+                  key={donation.id} 
+                  className={donation.status === 'REJECTED' ? 'bg-gray-50' : ''}
+                >
                   <TableCell className="font-medium text-muted-foreground">
                     {startIndex + index + 1}
                   </TableCell>
@@ -115,14 +146,17 @@ export function DonationList({ donations, showPagination = false, itemsPerPage =
                     </Badge>
                   </TableCell>
                   <TableCell>
-                    <Badge variant="outline">
+                    <Badge variant="outline" className="text-xs">
                       {donation.payment_method === 'CASH' ? 'Tunai' : 'Transfer'}
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right">
-                    <span className="font-bold text-green-600">
+                    <span className={`font-bold ${donation.status === 'REJECTED' ? 'text-gray-500 line-through' : 'text-green-600'}`}>
                       {formatRupiah(donation.amount)}
                     </span>
+                  </TableCell>
+                  <TableCell>
+                    {getStatusBadge(donation.status)}
                   </TableCell>
                   <TableCell className="text-sm text-muted-foreground">
                     {formatDate(donation.date)}
@@ -134,7 +168,6 @@ export function DonationList({ donations, showPagination = false, itemsPerPage =
         </Table>
       </div>
 
-      {/* Pagination */}
       {showPagination && totalPages > 1 && (
         <div className="flex items-center justify-between">
           <p className="text-sm text-muted-foreground">
@@ -166,5 +199,3 @@ export function DonationList({ donations, showPagination = false, itemsPerPage =
     </div>
   )
 }
-
-import { HandHeart } from "lucide-react"

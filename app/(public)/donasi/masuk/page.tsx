@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox"
 import { createClient } from "@/lib/supabase/client"
 import { formatRupiah, generateReceiptNumber } from "@/lib/utils"
-import { CheckCircle, Copy, Printer, Download, Share2, Building2, Home, Calendar, User, Banknote } from "lucide-react"
+import { CheckCircle, Copy, Printer, Download, Share2, Building2, Home, Calendar, User, Banknote, Clock } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
 const donationSchema = z.object({
@@ -148,6 +148,7 @@ export default function DonationPage() {
           ...data,
           receipt_number: receipt,
           date: date,
+          status: 'PENDING', // ✅ TAMBAHKAN INI
         }
       ])
 
@@ -231,7 +232,12 @@ export default function DonationPage() {
               Donasi Anda telah tercatat. Simpan nomor resi berikut:
             </p>
             
-            <div className="bg-green-50 p-4 rounded-lg mb-6">
+            <div className="bg-yellow-50 p-4 rounded-lg mb-6 border border-yellow-200">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <Clock className="h-5 w-5 text-yellow-600" />
+                <span className="text-sm font-medium text-yellow-700">MENUNGGU KONFIRMASI</span>
+              </div>
+              <p className="text-xs text-gray-600 mb-2">Donasi akan diproses setelah dikonfirmasi oleh admin (1x24 jam)</p>
               <p className="text-sm text-gray-600 mb-1">Nomor Resi Donasi</p>
               <div className="flex items-center justify-center gap-2 mb-2">
                 <p className="text-xl font-bold text-green-700 font-mono">{receiptNumber}</p>

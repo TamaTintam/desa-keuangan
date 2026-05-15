@@ -4,6 +4,8 @@ export type TransactionType = 'INCOME' | 'EXPENSE';
 
 export type TransactionSubCategory = 'INFAQ' | 'SADAQAH' | 'KEGIATAN' | 'OPERASIONAL';
 
+export type DonationStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
+
 export interface Transaction {
   id: string;
   category: CategoryType;
@@ -31,6 +33,10 @@ export interface Donation {
   is_anonymous: boolean;
   created_at: string;
   receipt_number: string;
+  status: DonationStatus;
+  reviewed_by?: string;
+  reviewed_at?: string;
+  rejection_reason?: string;
 }
 
 export interface FinancialSummary {
@@ -50,7 +56,6 @@ export interface FinancialSummary {
     OPERASIONAL: { income: number; expense: number };
   };
 }
-
 
 export interface User {
   id: string;

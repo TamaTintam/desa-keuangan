@@ -17,7 +17,7 @@ async function getHomeData() {
     supabase.from('site_settings').select('*'),
     supabase.from('news').select('*').eq('is_published', true).order('created_at', { ascending: false }).limit(6),
     supabase.from('transactions').select('*'),
-    supabase.from('donations').select('*')
+    supabase.from('donations').select('*').eq('status', 'APPROVED').eq('category', 'MASJID')
   ])
 
   const youtubeUrl = settings?.find(s => s.key === 'hero_youtube_url')?.value || ''
@@ -107,15 +107,15 @@ export default async function HomePage() {
               <p className="text-3xl font-bold text-gray-900">{transactionCount}</p>
               <p className="text-gray-600">Transaksi Tercatat</p>
             </div>
-            <div className="bg-white p-6 rounded-xl shadow-sm text-center">
-              <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <HandHeart className="h-6 w-6 text-emerald-600" />
-              </div>
-              <p className="text-3xl font-bold text-gray-900">
-                {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(sisaSaldo)}
-              </p>
-              <p className="text-gray-600">Total Saldo</p>
-            </div>
+            {/* <div className="bg-white p-6 rounded-xl shadow-sm text-center"> */}
+              {/* <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4"> */}
+                {/* <HandHeart className="h-6 w-6 text-emerald-600" /> */}
+              {/* </div> */}
+              {/* <p className="text-3xl font-bold text-gray-900"> */}
+                {/* {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(sisaSaldo)} */}
+              {/* </p> */}
+              {/* <p className="text-gray-600">Total Saldo</p> */}
+            {/* </div> */}
             <div className="bg-white p-6 rounded-xl shadow-sm text-center">
               <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Newspaper className="h-6 w-6 text-purple-600" />
